@@ -3,8 +3,6 @@ title: 'Session 2: Homework 1'
 author: "Study 8"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     code_folding: show
     highlight: zenburn
@@ -12,6 +10,8 @@ output:
     theme: flatly
     toc: yes
     toc_float: yes
+  pdf_document:
+    toc: yes
 ---
 
 
@@ -83,7 +83,7 @@ Make a plot that shows the top 25 beer consuming countries
 p<-drinks%>% 
   slice_max(order_by = beer_servings,n=25) 
 
-ggplot(p,aes(x=beer_servings,y=reorder(country,beer_servings),colour=country)) + 
+ggplot(p,aes(x=beer_servings,y=reorder(country,beer_servings),fill=country)) + 
   geom_col() +
   NULL
 
@@ -97,7 +97,7 @@ Make a plot that shows the top 25 wine consuming countries
 q<-drinks%>% 
   slice_max(order_by = wine_servings,n=25) 
 
-ggplot(q,aes(x=wine_servings,y=reorder(country,wine_servings),colour=country)) + 
+ggplot(q,aes(x=wine_servings,y=reorder(country,wine_servings),fill=country)) + 
   geom_col() +
   NULL
 
@@ -110,7 +110,7 @@ Finally, make a plot that shows the top 25 spirit consuming countries
 r<-drinks%>% 
   slice_max(order_by = spirit_servings,n=25) 
 
-ggplot(r,aes(x=spirit_servings,y=reorder(country,spirit_servings),colour=country)) + 
+ggplot(r,aes(x=spirit_servings,y=reorder(country,spirit_servings),fill=country)) + 
   geom_col() +
   NULL
 
@@ -155,7 +155,6 @@ Answer: missing values (NA) = 0
 movies %>% group_by(genre)%>%count(genre)%>%
 arrange(desc(n))
 ```
-```
 
 
 - Produce a table with the average gross earning and budget (`gross` and `budget`) by genre.
@@ -179,7 +178,9 @@ movies %>% group_by(director) %>% summarise(total_gross_director=sum(gross),mean
 - Finally, ratings. Produce a table that describes how ratings are distributed by genre. We don't want just the mean, but also, min, max, median, SD and some kind of a histogram or density graph that visually shows how ratings are distributed. 
 
 ```{r}
-
+q<-movies %>% group_by(genre) %>% summarise(mean_rating=mean(rating),median_rating=median(rating),sd_rating=sd(rating),max_rating=max(rating))
+q
+ggplot(q,aes(x=genre,y=mean_rating,fill=genre))+geom_col(width=0.7, position=position_dodge(width=0.8))+NULL
 ```
 
 
